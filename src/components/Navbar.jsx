@@ -9,6 +9,17 @@ const Navbar = () => {
     const handleMouseEnter = (menu) => setActiveDropdown(menu);
     const handleMouseLeave = () => setActiveDropdown(null);
     const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+    
+    // Handle dropdown toggle on mobile
+    const handleDropdownToggle = (menu) => {
+        setActiveDropdown(activeDropdown === menu ? null : menu);
+    };
+
+    // Close mobile menu when a link is clicked
+    const handleLinkClick = () => {
+        setMobileMenuOpen(false);
+        setActiveDropdown(null);
+    };
 
     // Improved slugify to match App.jsx routes
     const slugify = (text) => {
@@ -57,46 +68,61 @@ const Navbar = () => {
 
                 <ul className={`navbar-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
                     <li>
-                        <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/" end onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             HOME
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/technologies" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/technologies" onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             TECHNOLOGIES
                         </NavLink>
                     </li>
 
-                    <li onMouseEnter={() => handleMouseEnter('business')} onMouseLeave={handleMouseLeave} className="dropdown">
+                    <li 
+                        onMouseEnter={() => handleMouseEnter('business')} 
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleDropdownToggle('business')}
+                        className={`dropdown ${activeDropdown === 'business' ? 'active' : ''}`}
+                    >
                         <span className="nav-item">SOLUTIONS <i className="arrow down"></i></span>
                         {activeDropdown === 'business' && (
                             <ul className="dropdown-menu">
                                 {businessSolutions.map(item => (
-                                    <li key={item}><Link to={`/business/${slugify(item)}`}>{item}</Link></li>
+                                    <li key={item}><Link to={`/business/${slugify(item)}`} onClick={handleLinkClick}>{item}</Link></li>
                                 ))}
                             </ul>
                         )}
                     </li>
 
-                    <li onMouseEnter={() => handleMouseEnter('services')} onMouseLeave={handleMouseLeave} className="dropdown">
+                    <li 
+                        onMouseEnter={() => handleMouseEnter('services')} 
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleDropdownToggle('services')}
+                        className={`dropdown ${activeDropdown === 'services' ? 'active' : ''}`}
+                    >
                         <span className="nav-item">SERVICES <i className="arrow down"></i></span>
                         {activeDropdown === 'services' && (
                             <ul className="dropdown-menu dropdown-menu-lg">
                                 {services.map(item => (
-                                    <li key={item}><Link to={`/service/${slugify(item)}`}>{item}</Link></li>
+                                    <li key={item}><Link to={`/service/${slugify(item)}`} onClick={handleLinkClick}>{item}</Link></li>
                                 ))}
                             </ul>
                         )}
                     </li>
 
-                    <li onMouseEnter={() => handleMouseEnter('development')} onMouseLeave={handleMouseLeave} className="dropdown">
+                    <li 
+                        onMouseEnter={() => handleMouseEnter('development')} 
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleDropdownToggle('development')}
+                        className={`dropdown ${activeDropdown === 'development' ? 'active' : ''}`}
+                    >
                         <span className="nav-item">DEVELOPMENT <i className="arrow down"></i></span>
                         {activeDropdown === 'development' && (
                             <ul className="dropdown-menu">
                                 {development.map(item => (
                                     <li key={item.name}>
-                                        <Link to={`/development/${item.path}`}>
+                                        <Link to={`/development/${item.path}`} onClick={handleLinkClick}>
                                             {item.name}
                                         </Link>
                                     </li>
@@ -105,38 +131,43 @@ const Navbar = () => {
                         )}
                     </li>
 
-                    <li onMouseEnter={() => handleMouseEnter('industries')} onMouseLeave={handleMouseLeave} className="dropdown">
+                    <li 
+                        onMouseEnter={() => handleMouseEnter('industries')} 
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleDropdownToggle('industries')}
+                        className={`dropdown ${activeDropdown === 'industries' ? 'active' : ''}`}
+                    >
                         <span className="nav-item">INDUSTRIES <i className="arrow down"></i></span>
                         {activeDropdown === 'industries' && (
                             <ul className="dropdown-menu columns-2">
-                                <li className="dropdown-header"><Link to="/industries">View All Industries</Link></li>
+                                <li className="dropdown-header"><Link to="/industries" onClick={handleLinkClick}>View All Industries</Link></li>
                                 {industries.map(item => (
-                                    <li key={item}><Link to={`/industry/${slugify(item)}`}>{item}</Link></li>
+                                    <li key={item}><Link to={`/industry/${slugify(item)}`} onClick={handleLinkClick}>{item}</Link></li>
                                 ))}
                             </ul>
                         )}
                     </li>
 
                     <li>
-                        <NavLink to="/portfolio" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/portfolio" onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             PORTFOLIO
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/blog" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/blog" onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             BLOG
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/about" onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             ABOUT
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <NavLink to="/contact" onClick={handleLinkClick} className={({ isActive }) => isActive ? 'active' : ''}>
                             CONTACT
                         </NavLink>
                     </li>
